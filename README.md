@@ -104,10 +104,10 @@ En este proyecto, estamos empleando la metodología ágil mediante el marco de t
 
 ## **Roles y responsabilidades**
 
-María Marcela Balzarelli - Data Science
-Pablo Nahuel Barchiesi Ponce - Data Engineer
-Michael  Martinez Chinchilla - Data Engineer
-Jorgelina Paola Lujan Ramos - Data Analyst
+- María Marcela Balzarelli - Data Science
+- Pablo Nahuel Barchiesi Ponce - Data Engineer
+- Michael  Martinez Chinchilla - Data Engineer
+- Jorgelina Paola Lujan Ramos - Data Analyst
 
 
 ## **Cronograma general (Gantt)**
