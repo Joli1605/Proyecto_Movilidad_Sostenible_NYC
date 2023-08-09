@@ -141,20 +141,6 @@ La conexión se realiza mediante el conector de Azure SQL Database de PowerBI. S
 
 ## Roles y responsabilidades
 
-<<<<<<< Updated upstream
-- María Marcela Balzarelli - Data Science
-- Pablo Nahuel Barchiesi Ponce - Data Engineer
-- Michael  Martinez Chinchilla - Data Engineer
-- Jorgelina Paola Lujan Ramos - Data Analyst
-
-
-## **Cronograma general (Gantt)**
-
-
-<div style="text-align: center;">
-  <img src='./Images/DiagramaGantt.jpg' alt="Logo Consultora" width="800">
-</div>
-=======
 María Marcela Balzarelli - Data Science
 
 Pablo Nahuel Barchiesi Ponce - Data Engineer
@@ -162,4 +148,3 @@ Pablo Nahuel Barchiesi Ponce - Data Engineer
 Michael  Martinez Chinchilla - Data Engineer
 
 Jorgelina Paola Lujan Ramos - Data Analyst
->>>>>>> Stashed changes
