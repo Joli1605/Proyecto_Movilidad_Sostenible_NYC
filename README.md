@@ -13,13 +13,9 @@ La empresa de servicios de transporte de pasajeros desea invertir en el sector c
 
 El proyecto implica recopilar, depurar y disponibilizar información relevante de diferentes fuentes para analizar la relación entre el transporte de pasajeros con automóviles en Nueva York, la calidad del aire, la contaminación sonora y correlaciones climáticas. A través de reportes, dashboards y el entrenamiento de un modelo de machine learning de clasificación, se resolverá un problema específico relacionado con los objetivos del proyecto.
 
-<<<<<<< HEAD
 
 
 ## Objetivos: específicos del trabajo y del grupo
-=======
-## 2. Objetivos: específicos del trabajo y del grupo
->>>>>>> michael
 
 ### **Específicos del trabajo:**
 
