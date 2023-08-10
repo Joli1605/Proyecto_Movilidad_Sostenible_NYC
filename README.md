@@ -5,19 +5,21 @@
 </div>
 <br>
 
-
 # Proyecto_Movilidad_Sostenible_NYC
 
 ## Entendimiento de la situación propuesta: 
-
 
 La empresa de servicios de transporte de pasajeros desea invertir en el sector con automóviles en la ciudad de Nueva York. Para ello, contrata a Analytica Data Solutions como Consultores externos para encontrar soluciones innovadoras, en donde se estudiará la relación entre estos medios de transporte particulares, la calidad del aire,  la contaminación sonora y correlaciones climáticas, con el objetivo de considerar la posibilidad de implementar vehículos eléctricos en su flota. Se deberá realizar un análisis preliminar del movimiento de los taxis en la ciudad para obtener un marco de referencia y tomar decisiones bien fundamentadas.
 
 El proyecto implica recopilar, depurar y disponibilizar información relevante de diferentes fuentes para analizar la relación entre el transporte de pasajeros con automóviles en Nueva York, la calidad del aire, la contaminación sonora y correlaciones climáticas. A través de reportes, dashboards y el entrenamiento de un modelo de machine learning de clasificación, se resolverá un problema específico relacionado con los objetivos del proyecto.
 
+<<<<<<< HEAD
 
 
 ## Objetivos: específicos del trabajo y del grupo
+=======
+## 2. Objetivos: específicos del trabajo y del grupo
+>>>>>>> michael
 
 ### **Específicos del trabajo:**
 
@@ -26,6 +28,7 @@ El proyecto implica recopilar, depurar y disponibilizar información relevante d
 - Crear un dashboard interactivo y visualmente atractivo que integre los resultados del análisis exploratorio de datos
 - Entrenar y poner en producción un modelo de machine learning de clasificación para resolver el problema de inversión en el sector.
 
+<<<<<<< HEAD
 ### **Objetivos del grupo:**
 
 - Investigar y analizar los conjuntos de datos de taxis y viajes compartidos en Nueva York para identificar patrones y tendencias de movimiento.
@@ -96,6 +99,9 @@ En este proyecto, estamos empleando la metodología ágil mediante el marco de t
 
 
 ## Stack tecnológico
+=======
+## **Stack tecnológico**
+>>>>>>> michael
 
 Para llevar a cabo nuestro proyecto hemos seleccionado las siguientes tecnologías:
 
