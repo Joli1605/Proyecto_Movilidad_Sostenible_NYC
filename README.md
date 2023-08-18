@@ -52,7 +52,7 @@ En esta sección se estructurará el flujo del dato desde la recepción hasta la
 
 <br>
 <div style="text-align: center;">
-  <img src='./Images/data_pipeline.png' alt="imagen data pipeline">
+  <img src='./Images/pipeline.png' alt="imagen data pipeline">
 </div>
 <br>
 
