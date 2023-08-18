@@ -24,27 +24,27 @@ El proyecto implica recopilar, depurar y disponibilizar información relevante d
 
 ## Roles y responsabilidades
 
-María Marcela Balzarelli - Data Science
+- María Marcela Balzarelli - Data Science
 
-Pablo Nahuel Barchiesi Ponce - Data Engineer
+- Pablo Nahuel Barchiesi Ponce - Data Engineer
 
-Michael  Martinez Chinchilla - Data Engineer
+- Michael  Martinez Chinchilla - Data Engineer
 
-Jorgelina Paola Lujan Ramos - Data Analyst
+- Jorgelina Paola Lujan Ramos - Data Analyst
 
 ## **Stack tecnológico**
 
 Para llevar a cabo nuestro proyecto hemos seleccionado las siguientes tecnologías:
 
-Trabajo diario: python, google meet, github.
+- Trabajo diario: python, google meet, github.
 
-Ingeniería de datos: Microsoft Azure, Python, sql.
+- Ingeniería de datos: Python, mysql.
 
-Análisis y visualización de datos: Power Bi, python.
+- Análisis y visualización de datos: Power Bi, python.
 
-Modelo de machine learning: Python.
+- Modelo de machine learning: Python.
 
-Gestión de proyectos: Jira
+- Gestión de proyectos: Jira
 
 ## Solución data pipeline
 
