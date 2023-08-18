@@ -46,6 +46,7 @@ Para llevar a cabo nuestro proyecto hemos seleccionado las siguientes tecnologí
 
 - Gestión de proyectos: Jira
 
+
 ## Solución data pipeline
 
 En esta sección se estructurará el flujo del dato desde la recepción hasta la salida del ETL.
@@ -81,4 +82,20 @@ Creada la SQL Database de Azure se realizará la conexión con Databricks por me
 
 La conexión se realiza mediante el conector de Azure SQL Database de PowerBI. Se ingresan las credenciales del servidor de base de datos y se cargan los datos ya sea por Direct Query o Import Data.
 
+## Indicadores Clave de Desempeño (KPIs)
+En este proyecto, es esencial medir el desempeño y los resultados obtenidos a través de indicadores clave. Los siguientes KPIs se utilizarán para evaluar el éxito de nuestras soluciones y el impacto de la implementación de vehículos eléctricos en la flota de transporte:
+
+### **KPI: Crecimiento Porcentual de Tarifas de Taxi Verdes dos años**
+
+Objetivo: Evaluar si hubo un aumento de al menos el 5% en las tarifas entre los dos últimos años.
+
+### **KPI: Reducción de Contaminación Sonora entre Vehículos de Combustión y Eléctricos**
+ Objetivo: Demostrar una disminución del 30% en el nivel porcentual de ruido generado por vehículos en los dos ultimos años analizados.
+
+### **KPI: Mes con Mayor Demanda**
+Objetivo: Identificar el mes con la mayor cantidad de viajes realizados en los meses en los que se registra una mayor cantidad de lluvia en los últimos dos años 
+
+### **KPI: Análisis de Demanda de Viajes por Boroughs**
+
+Objetivo: Equilibrar la cantidad de viajes en los diferentes boroughs de la ciudad de Nueva York, buscando reducir la diferencia entre el borough con la cantidad máxima de viajes y el borough con la cantidad mínima, logrando una diferencia no mayor al 15%.
 
