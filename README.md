@@ -38,7 +38,7 @@ Para llevar a cabo nuestro proyecto hemos seleccionado las siguientes tecnologí
 
 - Trabajo diario: python, google meet, github.
 
-- Ingeniería de datos: Python, mysql.
+- Ingeniería de datos: Python, mysql, Docker, Apache Airflow.
 
 - Análisis y visualización de datos: Power Bi, python.
 
@@ -49,7 +49,7 @@ Para llevar a cabo nuestro proyecto hemos seleccionado las siguientes tecnologí
 
 ## Solución data pipeline
 
-En esta sección se estructurará el flujo del dato desde la recepción hasta la salida del ETL.
+En esta sección se estructurará el flujo de datos desde la recepción hasta la salida del ETL.
 
 <br>
 <div style="text-align: center;">
@@ -57,30 +57,29 @@ En esta sección se estructurará el flujo del dato desde la recepción hasta la
 </div>
 <br>
 
-### **Data Ingest**
+### Ingesta de Datos: 
 
-Los datos entregados por la empresa y extraídos por nuestro equipo mediante api y web scraping se descargaron y son almacenados de manera temporal en el localhost de nuestra máquina.
+Los archivos de datos en los formatos CSV, Parquet y DBF se pueden cargar localmente al sistema. Estos archivos contienen información esencial sobre la movilidad urbana y son la base de nuestro análisis.
 
-Dado que trabajaremos sobre el esquema de Microsoft Azure se creará un contenedor donde se almacenarán los datasets sin procesar en la nube. Para esto, fue necesario crear una cuenta de trabajo en el portal de Azure. En dicha cuenta se crea un grupo de recursos donde incluímos una cuenta de almacenamiento con un contenedor.
+### Orquestación con Apache Airflow en Docker: 
 
-### **Conexión con Databricks**
+Utilizamos Apache Airflow para orquestar y programar el flujo de trabajo de ingesta y procesamiento de datos. Airflow asegura que las tareas se ejecuten automáticamente y en el orden correcto, optimizando la eficiencia del sistema. Tanto Apache Airflow como los procesos ETL automatizados en Python están contenidos en contenedores Docker.
 
-Una vez almacenados los datasets en el contenedor de Azure se procede a realizar la conexión con Databricks, nuestro lugar de trabajo principal.
+### Proceso ETL Automatizado en Python en Docker: 
 
-En el grupo de recursos previamente creado se añade un workspace de Databricks. Ahí se creará un clúster que permite computar nuestros datos (Single Node 10.4 LTS Apache Spark 14 GB Memory, 4 Cores), el criterio de selección es en base al alcance de nuestros recursos.
+El proceso de Extracción, Transformación y Carga (ETL) se realiza a través de scripts de Python contenidos en contenedores Docker. Estos scripts llevan a cabo la limpieza, transformación y enriquecimiento de los datos, preparándolos para su análisis posterior. Además, hemos implementado un mecanismo de carga incremental para actualizar los datos de manera eficiente.
 
-Dentro de Databricks creamos un Notebook y lo conectamos con el clúster. En dicho Notebook establecemos las variables necesarias para la conexión con el contenedor.
+### Almacenamiento en MySQL: 
 
+Los datos procesados se almacenan en una base de datos MySQL.
 
-### **ETL**
-Se realizará todo el proceso de extracción, transformación y carga de los datos hacia el data warehouse
+### Análisis de Datos en Power BI: 
 
-### **Conexión con SQL database**
-Creada la SQL Database de Azure se realizará la conexión con Databricks por medio del protocolo jdbc.
+Una vez que los datos se encuentran en la base de datos, se pueden analizar y visualizar utilizando Power BI. Esto permite identificar tendencias, patrones y obtener información valiosa para la toma de decisiones informadas.
 
-### **Conexión con Power BI**
+### Modelo de Machine Learning y Streamlit:
 
-La conexión se realiza mediante el conector de Azure SQL Database de PowerBI. Se ingresan las credenciales del servidor de base de datos y se cargan los datos ya sea por Direct Query o Import Data.
+Además del análisis tradicional, estamos construyendo un modelo de Machine Learning en Python. Este modelo se implementará en una aplicación interactiva utilizando Streamlit, lo que permitirá a los usuarios interactuar con el modelo y obtener predicciones en tiempo real.
 
 ## Indicadores Clave de Desempeño (KPIs)
 En este proyecto, es esencial medir el desempeño y los resultados obtenidos a través de indicadores clave. Los siguientes KPIs se utilizarán para evaluar el éxito de nuestras soluciones y el impacto de la implementación de vehículos eléctricos en la flota de transporte:
@@ -89,13 +88,12 @@ En este proyecto, es esencial medir el desempeño y los resultados obtenidos a t
 
 Objetivo: Evaluar si hubo un aumento de al menos el 5% en las tarifas entre los dos últimos años.
 
-### **KPI: Reducción de Contaminación Sonora entre Vehículos de Combustión y Eléctricos**
- Objetivo: Demostrar una disminución del 30% en el nivel porcentual de ruido generado por vehículos en los dos ultimos años analizados.
+### **KPI: Control de Incremento de Contaminación Sonora en Barrios con Mayor Contaminación**
+Objetivo: Limitar el incremento anual de los niveles de contaminación sonora en los barrios identificados con mayor contaminación a un máximo del 5% durante los próximos dos años.
 
-### **KPI: Mes con Mayor Demanda**
-Objetivo: Identificar el mes con la mayor cantidad de viajes realizados en los meses en los que se registra una mayor cantidad de lluvia en los últimos dos años 
+### **KPI: Crecimiento Anual de la Cantidad de Viajes Realizados**
+Objetivo: Aumentar la cantidad de viajes realizados en un 10% anual durante los próximos cinco años.
 
-### **KPI: Análisis de Demanda de Viajes por Boroughs**
-
-Objetivo: Equilibrar la cantidad de viajes en los diferentes boroughs de la ciudad de Nueva York, buscando reducir la diferencia entre el borough con la cantidad máxima de viajes y el borough con la cantidad mínima, logrando una diferencia no mayor al 15%.
+### **KPI: Horas de Mayor Demanda en Épocas de Bajas Temperaturas**
+Objetivo: Identificar las horas con la mayor cantidad de viajes realizados durante los períodos de bajas temperaturas, buscando incrementar la cantidad de viajes en esas horas en al menos un 10% en el próximo año.
 
