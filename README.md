@@ -61,17 +61,17 @@ En esta sección se estructurará el flujo de datos desde la recepción hasta la
 
 Los archivos de datos en los formatos CSV, Parquet y DBF se pueden cargar localmente al sistema. Estos archivos contienen información esencial sobre la movilidad urbana y son la base de nuestro análisis.
 
-### Orquestación con Apache Airflow:
+### Orquestación con Apache Airflow en Docker: 
 
-Utilizamos Apache Airflow para gestionar el flujo de trabajo de ingesta y procesamiento de datos. Airflow permite la programación automatizada de tareas y garantiza que los datos se manejen en el momento adecuado y en el orden correcto.
+Utilizamos Apache Airflow para orquestar y programar el flujo de trabajo de ingesta y procesamiento de datos. Airflow asegura que las tareas se ejecuten automáticamente y en el orden correcto, optimizando la eficiencia del sistema. Tanto Apache Airflow como los procesos ETL automatizados en Python están contenidos en contenedores Docker.
 
-### Proceso ETL Automatizado: 
+### Proceso ETL Automatizado en Python en Docker: 
 
-El proceso de Extracción, Transformación y Carga (ETL) se lleva a cabo utilizando scripts de Python. Estos scripts realizan la limpieza, transformación y enriquecimiento de los datos para prepararlos para su análisis.
+El proceso de Extracción, Transformación y Carga (ETL) se realiza a través de scripts de Python contenidos en contenedores Docker. Estos scripts llevan a cabo la limpieza, transformación y enriquecimiento de los datos, preparándolos para su análisis posterior. Además, hemos implementado un mecanismo de carga incremental para actualizar los datos de manera eficiente.
 
-### Almacenamiento en MySQL y Contenedor Docker: 
+### Almacenamiento en MySQL: 
 
-Los datos procesados se cargan en una base de datos MySQL. Para garantizar la portabilidad y el aislamiento, todo el sistema está contenido en un entorno Docker. Esto facilita la configuración y despliegue en diferentes entornos.
+Los datos procesados se almacenan en una base de datos MySQL.
 
 ### Análisis de Datos en Power BI: 
 
