@@ -91,10 +91,9 @@ Objetivo: Evaluar si hubo un aumento de al menos el 5% en las tarifas entre los 
 ### **KPI: Reducción de Contaminación Sonora entre Vehículos de Combustión y Eléctricos**
  Objetivo: Demostrar una disminución del 10% en el nivel porcentual de ruido generado por vehículos en los dos ultimos años analizados.
 
-### **KPI: Mes con Mayor Demanda**
-Objetivo: Identificar el mes con la mayor cantidad de viajes realizados en los meses en los que se registra una mayor cantidad de lluvia en los últimos dos años 
+### **KPI: Crecimiento Anual de la Cantidad de Viajes Realizados**
+Objetivo: Aumentar la cantidad de viajes realizados en un 10% anual durante los próximos cinco años.
 
-### **KPI: Análisis de Demanda de Viajes por Boroughs**
-
-Objetivo: Equilibrar la cantidad de viajes en los diferentes boroughs de la ciudad de Nueva York, buscando reducir la diferencia entre el borough con la cantidad máxima de viajes y el borough con la cantidad mínima, logrando una diferencia no mayor al 15%.
+### **KPI: Horas de Mayor Demanda en Épocas de Bajas Temperaturas**
+Objetivo: Identificar las horas con la mayor cantidad de viajes realizados durante los períodos de bajas temperaturas, buscando incrementar la cantidad de viajes en esas horas en al menos un 10% en el próximo año.
 
