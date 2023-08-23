@@ -63,11 +63,11 @@ Los archivos de datos en los formatos CSV, Parquet y DBF se pueden cargar localm
 
 ### Orquestación con Apache Airflow en Docker: 
 
-Utilizamos Apache Airflow para orquestar y programar el flujo de trabajo de ingesta y procesamiento de datos. Airflow asegura que las tareas se ejecuten automáticamente y en el orden correcto, optimizando la eficiencia del sistema. Tanto Apache Airflow como los procesos ETL automatizados en Python están contenidos en contenedores Docker.
+Utilizamos Apache Airflow para orquestar y programar el flujo de trabajo de ingesta, procesamiento y carga de los datos. Airflow asegura que las tareas se ejecuten automáticamente y en el orden correcto, optimizando la eficiencia del sistema.
 
-### Proceso ETL Automatizado en Python en Docker: 
+### Proceso ETL Automatizado: 
 
-El proceso de Extracción, Transformación y Carga (ETL) se realiza a través de scripts de Python contenidos en contenedores Docker. Estos scripts llevan a cabo la limpieza, transformación y enriquecimiento de los datos, preparándolos para su análisis posterior. Además, hemos implementado un mecanismo de carga incremental para actualizar los datos de manera eficiente.
+El proceso de Extracción, Transformación y Carga (ETL) se realiza a través del lenguaje de programación Python, además, hemos implementado con airflow el mecanismo de carga incremental para actualizar los datos de manera eficiente.
 
 ### Almacenamiento en MySQL: 
 
@@ -94,6 +94,7 @@ Objetivo: Limitar el incremento anual de los niveles de contaminación sonora en
 ### **KPI: Crecimiento Anual de la Cantidad de Viajes Realizados**
 Objetivo: Aumentar la cantidad de viajes realizados en un 10% anual durante los próximos cinco años.
 
-### **KPI: Horas de Mayor Demanda en Épocas de Bajas Temperaturas**
-Objetivo: Identificar las horas con la mayor cantidad de viajes realizados durante los períodos de bajas temperaturas, buscando incrementar la cantidad de viajes en esas horas en al menos un 10% en el próximo año.
+### **KPI: Días de la Semana con Mayor Demanda en Épocas de Bajas Temperaturas**
+Objetivo: Identificar los días de la semana con la mayor cantidad de viajes realizados durante los períodos de bajas temperaturas, buscando incrementar la cantidad de viajes en esos días en al menos un 10% en el próximo año.
+
 
