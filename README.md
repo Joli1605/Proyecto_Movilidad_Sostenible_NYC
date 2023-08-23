@@ -88,8 +88,8 @@ En este proyecto, es esencial medir el desempeño y los resultados obtenidos a t
 
 Objetivo: Evaluar si hubo un aumento de al menos el 5% en las tarifas entre los dos últimos años.
 
-### **KPI: Reducción de Contaminación Sonora entre Vehículos de Combustión y Eléctricos**
- Objetivo: Demostrar una disminución del 10% en el nivel porcentual de ruido generado por vehículos en los dos ultimos años analizados.
+### **KPI: Control de Incremento de Contaminación Sonora en Barrios con Mayor Contaminación**
+Objetivo: Limitar el incremento anual de los niveles de contaminación sonora en los barrios identificados con mayor contaminación a un máximo del 5% durante los próximos dos años.
 
 ### **KPI: Crecimiento Anual de la Cantidad de Viajes Realizados**
 Objetivo: Aumentar la cantidad de viajes realizados en un 10% anual durante los próximos cinco años.
