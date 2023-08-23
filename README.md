@@ -38,7 +38,7 @@ Para llevar a cabo nuestro proyecto hemos seleccionado las siguientes tecnologí
 
 - Trabajo diario: python, google meet, github.
 
-- Ingeniería de datos: Python, mysql.
+- Ingeniería de datos: Python, mysql, Docker, Apache Airflow.
 
 - Análisis y visualización de datos: Power Bi, python.
 
