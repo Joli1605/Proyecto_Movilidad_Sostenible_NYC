@@ -65,6 +65,12 @@ Los archivos de datos en los formatos CSV, Parquet y DBF se pueden cargar localm
 
 Utilizamos Apache Airflow para orquestar y programar el flujo de trabajo de ingesta, procesamiento y carga de los datos. Airflow asegura que las tareas se ejecuten automáticamente y en el orden correcto, optimizando la eficiencia del sistema.
 
+<br>
+<div style="text-align: center;">
+  <img src='./Images/Airflow.jpeg' alt="imagen Airflow">
+</div>
+<br>
+
 ### Proceso ETL Automatizado: 
 
 El proceso de Extracción, Transformación y Carga (ETL) se realiza a través del lenguaje de programación Python, además, hemos implementado con airflow el mecanismo de carga incremental para actualizar los datos de manera eficiente.
@@ -97,4 +103,11 @@ Objetivo: Aumentar la cantidad de viajes realizados en un 10% anual durante los 
 ### **KPI: Días de la Semana con Mayor Demanda en Épocas de Bajas Temperaturas**
 Objetivo: Identificar los días de la semana con la mayor cantidad de viajes realizados durante los períodos de bajas temperaturas, buscando incrementar la cantidad de viajes en esos días en al menos un 10% en el próximo año.
 
+### **Diagrama Entidad Relación**
+
+<br>
+<div style="text-align: center;">
+  <img src='./Images/Diagrama Entidad Relación.jpeg' alt="Diagrama Entidad Relación">
+</div>
+<br>
 
