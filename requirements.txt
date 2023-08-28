@@ -1,0 +1,11 @@
+#pandas-profiling
+psycopg2-binary
+pandas
+numpy
+pyarrow
+fastparquet
+sqlalchemy
+pymysql
+Flask
+gunicorn
+openpyxl
