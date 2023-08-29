@@ -1,4 +1,4 @@
-#pandas-profiling
+pandas-profiling
 psycopg2-binary
 pandas
 numpy
