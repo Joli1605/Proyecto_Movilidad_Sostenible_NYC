@@ -1,12 +1,12 @@
-
+---
 version: '3.8'
 x-airflow-common:
   &airflow-common
 
   image: ${AIRFLOW_IMAGE_NAME:-extending_airflow:latest}
   #image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.7.0}
-  
-  #build: .
+
+  # build: .
   environment:
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: LocalExecutor
@@ -30,7 +30,6 @@ x-airflow-common:
     postgres:
       condition: service_healthy
 
-# nombre de contenedores
 services:
   postgres:
     image: postgres:13
@@ -40,8 +39,6 @@ services:
       POSTGRES_DB: airflow
     volumes:
       - postgres-db-volume:/var/lib/postgresql/data
-    ports:
-      - 5432:5432  
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "airflow"]
       interval: 10s
@@ -186,6 +183,6 @@ services:
       - bash
       - -c
       - airflow
-
+ 
 volumes:
   postgres-db-volume:
