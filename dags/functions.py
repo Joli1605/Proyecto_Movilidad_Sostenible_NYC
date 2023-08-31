@@ -6,6 +6,7 @@ import os
 from airflow.models.taskinstance import TaskInstance as ti
 #from airflow.providers.amazon.aws.hooks.s3 import S3Hook
 from tempfile import NamedTemporaryFile
+import datetime as dt 
 
 spacer = '*'*10
 path_taxi = '/opt/airflow/dags/data/base/Taxis.parquet_2022_2023/'
@@ -71,23 +72,46 @@ def NormalizeColumn(df, column_name):
     df[column_name] = df[column_name].str.normalize('NFKD').str.encode('ascii', errors='ignore').str.decode('utf-8')
     return df[column_name]
 
-# ETL cotaminacion sonora 
+# ETL calidad del aire
 def Clean_Cal_Air(df):
+    #dataset extraido se encuentra limpio, no se realiza ninguna transformacion.
     pass
     return df
 
 # ETL cotaminacion sonora
 def Clean_Con_Son(df):
+    #dataset extraido se encuentra limpio, no se realiza ninguna transformacion.
     pass
     return df
 
-# ETL cotaminacion sonora
+# ETL clima
 def Clean_Clima(df):
-    #normalizar
+    """"
+    # Convertir la columna 'time' a tipo 'datetime'
+    df['time'] = pd.to_datetime(df['time'])
+    df['fecha'] = df['time'].dt.date
+    df['hora'] = df['time'].dt.time
+    df.drop(columns=['time'], inplace=True)
+    
+    df = df[['fecha', 'hora'] + [col for col in df.columns if col not in ['fecha', 'hora']]]
+
+    # Cambiar el nombre de la columna 'fecha' a 'time'
+    df.rename(columns={'fecha': 'time'}, inplace=True)
+    # Cambiar el nombre de la columna 'hora' a 'hours'
+    df.rename(columns={'hora': 'hours'}, inplace=True)
+    
+    # Filtrar los registros para excluir el año 2020
+    df = df[df['time'].dt.year != 2020]
+
+    # Eliminar las columnas no deseadas
+    columns_to_drop = ["precipitation (mm)", "rain (mm)", "is_day ()"]
+    df = df.drop(columns=columns_to_drop)
+    """
+    pass
     return df
 
-# ETL para estaciones
-def CleanStation(df):
+# ETL estaciones
+def Clean_Station(df):
            
     #Filtro por ubicación
     df = df[df['State'] == 'NY']
@@ -110,14 +134,22 @@ def CleanStation(df):
     
     return df
 
-# ETL Taxis
+# ETL Taxis zona
 def Clean_Taxi_Zone(df):
-    #normalizar
+    #transformaciones
+    columns_to_drop = ['Unnamed: 0', 'OBJECTID']
+    df = df.drop(columns=columns_to_drop)
+
+    column_order = ['LocationID'] + [col for col in df.columns if col != 'LocationID']
+    df=df[column_order]
+
+    df = df.rename(columns={'y': 'longitude', 'x': 'latitude'})
     return df
 
 
 # ETL vehiculos de combustion
 def Clean_Veh_Com(df):
+    #dataset extraido se encuentra limpio, no se realiza ninguna transformacion.
     pass
     return df
 

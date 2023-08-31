@@ -90,6 +90,7 @@ with DAG(
     SqlLoad = PythonOperator(
     task_id="SQLUploadAll",
     python_callable=UploadAll,
+    mysql_conn_id = 'mysql_docker'
     )
 
     FinishSQLLoading = EmptyOperator(
@@ -97,10 +98,10 @@ with DAG(
         dag = dag
         )
 
-    CheckWithQuery = PythonOperator(
-        task_id="CheckWithQuery",
-        python_callable=MakeQuery,
-    )
+    #CheckWithQuery = PythonOperator(
+    #    task_id="CheckWithQuery",
+        #python_callable=MakeQuery,
+    #)
 
     FinishPipeline = EmptyOperator(
     task_id = 'FinishPipeline',
@@ -108,8 +109,8 @@ with DAG(
     )
 
 
-StartPipeline >> [PythonLoad1, PythonLoad2, PythonLoad3,PythonLoad4,PythonLoad5,PythonLoad6,PythonLoad7,PythonLoad8,PythonLoad9] >> FinishETL
+#StartPipeline >> [PythonLoad1, PythonLoad2, PythonLoad3,PythonLoad4,PythonLoad5,PythonLoad6,PythonLoad7,PythonLoad8,PythonLoad9] >> FinishETL
 
-FinishETL >> SqlLoad >> FinishSQLLoading
+#FinishETL >> SqlLoad >> FinishSQLLoading
 
-FinishSQLLoading >> CheckWithQuery >> FinishPipeline
+#FinishSQLLoading >> CheckWithQuery >> FinishPipeline

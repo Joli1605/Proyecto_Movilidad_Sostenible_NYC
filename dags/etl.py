@@ -25,7 +25,7 @@ def Load_Con_Son():
     except:
         print('Error cleaning Conta_sonora')
         
-def Load_Clima():#dataset crudo
+def Load_Clima():
     try:
         df = Clean_Clima(FileImporter('NYCclima', 'csv', path = path_base))
         df.to_csv(f'{path_cleaned}NYCclima.csv', index=False)
@@ -35,15 +35,15 @@ def Load_Clima():#dataset crudo
 
 def Load_Station():
     try:
-        df = CleanStation(FileImporter('Electric and Alternative Fuel Charging Stations', 'csv', path = path_base))
+        df = Clean_Station(FileImporter('Electric and Alternative Fuel Charging Stations', 'csv', path = path_base))
         df.to_csv(f'{path_cleaned}Station_NY.csv', index=False)
         print('Station_NY Cleaned and Saved')
     except:
         print('Error cleaning Station_NY')
 
-def Load_Taxi_zone():#dataset crudo
+def Load_Taxi_zone():
     try:
-        df = Clean_Taxi_Zone(FileImporter('Taxi Zone', 'csv', path = path_base))
+        df = Clean_Taxi_Zone(FileImporter('Taxi_Zones', 'csv', path = path_base))
         df.to_csv(f'{path_cleaned}Taxi Zone.csv', index=False)
         print('Taxi Zone Cleaned and Saved')
     except:
@@ -87,9 +87,8 @@ def UploadAll():
     except:
         print('Error connecting to SQL')
 
-    base_files = glob.glob(f'{path_cleaned}*.csv')
-    all_files_cleaned = base_files 
-
+    all_files_cleaned = glob.glob(f'{path_cleaned}*.csv')
+    
     for filename in all_files_cleaned:
         try:
             df = pd.read_csv(filename)
