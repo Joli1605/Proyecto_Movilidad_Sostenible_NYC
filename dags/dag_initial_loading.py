@@ -22,14 +22,6 @@ default_args = {
     'retry_delay': timedelta(minutes=0.5)
 }
 
-path_station = '/opt/airflow/dags/data/base/Electric and Alternative Fuel Charging Stations.csv'
-path_veh_com = '/opt/airflow/dags/data/base/vehiculos_combustion_CO2_2023.csv'
-path_con_son = '/opt/airflow/dags/data/base/Conta_Sonora.csv'
-path_cal_air = '/opt/airflow/dags/data/base/Calidad_del_aire.csv'
-path_taxis = '/opt/airflow/dags/data/base/taxis.parquet_2022_2023'
-
-
-
 with DAG(
     'InitialLoading',
     description = 'Iniciando data pipeline',
@@ -44,27 +36,52 @@ with DAG(
         task_id = 'StartPipeline',
         dag = dag
         )
-
+    
     PythonLoad1 = PythonOperator(
-        task_id="Load_Station",
-        python_callable=LoadProducto,
+        task_id="Load_Cal_Air",
+        python_callable=Load_Cal_Air,
         )
-
+    
     PythonLoad2 = PythonOperator(
-        task_id="Load_Veh_Com",
-        python_callable=LoadSucursal,
+        task_id="Load_Con_Son",
+        python_callable=Load_Con_Son,
+        )
+    
+    PythonLoad3 = PythonOperator(
+        task_id="Load_Clima",
+        python_callable=Load_Clima,
         )
 
-    PythonLoad3 = PythonOperator(
-        task_id="Load_Con_Son",
-        python_callable=LoadPrecios,
-        )
-    
     PythonLoad4 = PythonOperator(
-        task_id="Load_Cal_air",
-        python_callable=LoadPrecios,
+        task_id="Load_Station",
+        python_callable=Load_Station,
         )
     
+    PythonLoad5 = PythonOperator(
+        task_id="Load_Taxi_zone",
+        python_callable=Load_Taxi_zone,
+        )
+        
+    PythonLoad6 = PythonOperator(
+        task_id="Load_Taxi_G",
+        python_callable=Load_TaxiG,
+        )   
+    
+    PythonLoad7 = PythonOperator(
+        task_id="Load_Taxi_Tarifa",
+        python_callable=Load_Taxi_Tarifa,
+        )
+    
+    PythonLoad8 = PythonOperator(
+        task_id="Load_Taxi_Y",
+        python_callable=Load_TaxiY,
+        )
+
+    PythonLoad9 = PythonOperator(
+        task_id="Load_Veh_Com",
+        python_callable=Load_Veh_Com,
+        )
+  
     FinishETL= EmptyOperator(
     task_id = 'FinishETL',
     dag = dag
@@ -91,7 +108,7 @@ with DAG(
     )
 
 
-StartPipeline >> [PythonLoad1, PythonLoad2, PythonLoad3,PythonLoad4] >> FinishETL
+StartPipeline >> [PythonLoad1, PythonLoad2, PythonLoad3,PythonLoad4,PythonLoad5,PythonLoad6,PythonLoad7,PythonLoad8,PythonLoad9] >> FinishETL
 
 FinishETL >> SqlLoad >> FinishSQLLoading
 

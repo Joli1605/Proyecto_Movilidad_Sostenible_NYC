@@ -71,6 +71,21 @@ def NormalizeColumn(df, column_name):
     df[column_name] = df[column_name].str.normalize('NFKD').str.encode('ascii', errors='ignore').str.decode('utf-8')
     return df[column_name]
 
+# ETL cotaminacion sonora
+def Clean_Cal_Air(df):
+    #normalizar
+    return df
+
+# ETL cotaminacion sonora
+def Clean_Con_Son(df):
+    #normalizar
+    return df
+
+# ETL cotaminacion sonora
+def Clean_Clima(df):
+    #normalizar
+    return df
+
 # ETL para estaciones
 def CleanStation(df):
            
@@ -95,23 +110,14 @@ def CleanStation(df):
     
     return df
 
+# ETL Taxis
+def Clean_Taxi_Zone(df):
+    #normalizar
+    return df
+
+
 # ETL vehiculos de combustion
 def Clean_Veh_Com(df):
-    #normalizar
-    return df
-
-# ETL cotaminacion sonora
-def Clean_Con_Son(df):
-    #normalizar
-    return df
-
-# ETL cotaminacion sonora
-def Clean_Cal_Air(df):
-    #normalizar
-    return df
-
-# ETL Taxis
-def Clean_Taxis(df):
     #normalizar
     return df
 
@@ -235,8 +241,6 @@ def ConnectSQL():
         return engine
     except:
         print('Error connecting to SQL')
-
-
 
 # Get a list of files in the folder to compare
 def GetFiles():
