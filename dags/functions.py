@@ -71,14 +71,14 @@ def NormalizeColumn(df, column_name):
     df[column_name] = df[column_name].str.normalize('NFKD').str.encode('ascii', errors='ignore').str.decode('utf-8')
     return df[column_name]
 
-# ETL cotaminacion sonora
+# ETL cotaminacion sonora 
 def Clean_Cal_Air(df):
-    #normalizar
+    pass
     return df
 
 # ETL cotaminacion sonora
 def Clean_Con_Son(df):
-    #normalizar
+    pass
     return df
 
 # ETL cotaminacion sonora
@@ -118,7 +118,7 @@ def Clean_Taxi_Zone(df):
 
 # ETL vehiculos de combustion
 def Clean_Veh_Com(df):
-    #normalizar
+    pass
     return df
 
 def FolderImporterTaxis(path:str = path_taxi, spacer:str = ',', spacer_txt:str = '|'):
