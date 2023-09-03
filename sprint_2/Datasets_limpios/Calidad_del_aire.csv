@@ -1,4 +1,4 @@
-Name,Measure,Measure Info,Geo Type Name,Geo Join ID,Geo Place Name,Time Period,Start_Date,Data Value
+Name,Measure,Measure_Info,Geo_Type_Name,Geo_Join_ID,Geo_Place_Name,Time_Period,Start_Date,Data_Value
 Ozone (O3),Mean,ppb,CD,313,Coney Island (CD13),Summer 2013,2013-06-01,34.64
 Ozone (O3),Mean,ppb,CD,313,Coney Island (CD13),Summer 2014,2014-06-01,33.22
 Ozone (O3),Mean,ppb,Borough,1,Bronx,Summer 2013,2013-06-01,31.25

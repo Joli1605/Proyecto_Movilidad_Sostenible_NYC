@@ -27,7 +27,7 @@ def Load_Con_Son():
         
 def Load_Clima():
     try:
-        df = Clean_Clima(FileImporter('NYCclima', 'csv', path = path_base))
+        df = Clean_Clima(FileImporter('NYCtiempo', 'csv', path = path_base))
         df.to_csv(f'{path_cleaned}NYCclima.csv', index=False)
         print('NYCclima Cleaned and Saved')
     except:
@@ -41,10 +41,10 @@ def Load_Station():
     except:
         print('Error cleaning Station_NY')
 
-def Load_Taxi_zone():
+def Load_Taxi_zones():
     try:
-        df = Clean_Taxi_Zone(FileImporter('Taxi_Zones', 'csv', path = path_base))
-        df.to_csv(f'{path_cleaned}Taxi Zone.csv', index=False)
+        df = Clean_Taxi_Zones(FileImporter('Taxi_Zones', 'csv', path = path_base))
+        df.to_csv(f'{path_cleaned}Taxi_Zones.csv', index=False)
         print('Taxi Zone Cleaned and Saved')
     except:
         print('Error cleaning Taxi Zone')
@@ -76,10 +76,10 @@ def Load_TaxiY():
 def Load_Veh_Com():
     try:
         df = Clean_Veh_Com(FileImporter('vehiculos_combustion_CO2_2023', 'csv', path = path_base))
-        df.to_csv(f'{path_cleaned}vehiculos_combustion_CO2_2023.csv', index=False)
-        print('vehiculos_combustion_CO2_2023 Cleaned and Saved')
+        df.to_csv(f'{path_cleaned}veh_com.csv', index=False)
+        print('vehiculos_combustion Cleaned and Saved')
     except:
-        print('Error cleaning vehiculos_combustion_CO2_2023')
+        print('Error cleaning vehiculos_combustion')
 
 def UploadAll():
     try:

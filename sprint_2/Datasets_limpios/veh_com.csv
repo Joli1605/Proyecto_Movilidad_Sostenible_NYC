@@ -1,4 +1,4 @@
-Model(Year),Make,Model.1,Vehicle Class,Engine Size(L),Cylinders,Transmission,Fuel(Type),Fuel Consumption(City (L/100 km),CO2 Emissions(g/km),CO2(Rating),Smog(Rating)
+Model_Year,Make,Model_1,Vehicle_Class,Engine_Size,Cylinders,Transmission,Fuel_Type,Fuel_Consumption_City,CO2_Emissions,CO2_Rating,Smog_Rating
 2023,Acura,Integra,Full-size,1.5,4.0,AV7,4.0,7.9,167,6,7
 2023,Acura,Integra A-SPEC,Full-size,1.5,4.0,AV7,4.0,8.1,172,6,7
 2023,Acura,Integra A-SPEC,Full-size,1.5,4.0,M6,4.0,8.9,181,6,6

@@ -66,16 +66,22 @@ def FileImporter (name: str, tipo: str, spacer:str = ',', path:str = path_other,
     finally:
         print('Importing successfully done for ', file)
 
-
-# Normalize strings and encoding for each column
-def NormalizeColumn(df, column_name):
-    df[column_name] = df[column_name].str.normalize('NFKD').str.encode('ascii', errors='ignore').str.decode('utf-8')
-    return df[column_name]
-
 # ETL calidad del aire
 def Clean_Cal_Air(df):
-    #dataset extraido se encuentra limpio, no se realiza ninguna transformacion.
-    pass
+    # cambiar nombres de columnas
+    nombres_nuevos = {
+        'Name': 'Name',
+        'Measure': 'Measure',
+        'Measure Info': 'Measure_Info',
+        'Geo Type Name': 'Geo_Type_Name',
+        'Geo Join ID': 'Geo_Join_ID',
+        'Geo Place Name': 'Geo_Place_Name',
+        'Time Period': 'Time_Period',
+        'Start_Date': 'Start_Date',
+        'Data Value': 'Data_Value'
+    }
+
+    df.rename(columns=nombres_nuevos, inplace=True)
     return df
 
 # ETL cotaminacion sonora
@@ -86,9 +92,11 @@ def Clean_Con_Son(df):
 
 # ETL clima
 def Clean_Clima(df):
-    """"
+    
     # Convertir la columna 'time' a tipo 'datetime'
     df['time'] = pd.to_datetime(df['time'])
+    
+    # creo columnas fecha y hora, elimino time
     df['fecha'] = df['time'].dt.date
     df['hora'] = df['time'].dt.time
     df.drop(columns=['time'], inplace=True)
@@ -99,6 +107,11 @@ def Clean_Clima(df):
     df.rename(columns={'fecha': 'time'}, inplace=True)
     # Cambiar el nombre de la columna 'hora' a 'hours'
     df.rename(columns={'hora': 'hours'}, inplace=True)
+    # Cambiar el nombre de la columna 'temperature_2m (°C)' a 'temperature'
+    df.rename(columns={'temperature_2m (°C)': 'temperature'}, inplace=True)
+    
+    # Convertir la columna 'time' a tipo 'datetime'
+    df['time'] = pd.to_datetime(df['time'])
     
     # Filtrar los registros para excluir el año 2020
     df = df[df['time'].dt.year != 2020]
@@ -106,8 +119,7 @@ def Clean_Clima(df):
     # Eliminar las columnas no deseadas
     columns_to_drop = ["precipitation (mm)", "rain (mm)", "is_day ()"]
     df = df.drop(columns=columns_to_drop)
-    """
-    pass
+    
     return df
 
 # ETL estaciones
@@ -115,27 +127,36 @@ def Clean_Station(df):
            
     #Filtro por ubicación
     df = df[df['State'] == 'NY']
-    # Lista de nombres de columnas a eliminar
-    columnas_a_eliminar = ['Street Address','Intersection Directions','ZIP','Plus4','Station Phone','Status Code','Groups With Access Code',
-    'Access Days Time','Cards Accepted','Date Last Confirmed','Updated At','Owner Type Code','Federal Agency ID',
-    'Open Date','Country','Access Code','Facility Type','CNG On-Site Renewable Source','CNG Total Compression Capacity','CNG Storage Capacity','EV Pricing',
-    'LPG Nozzle Types','CNG Fill Type Code','CNG PSI','EV On-Site Renewable Source','Restricted Access','Expected Date','BD Blends','NG Fill Type Code','NG PSI',
-    'EV Other Info','EV Network Web','Hydrogen Status Link','LPG Primary', 'E85 Blender Pump', 'Intersection Directions (French)','Access Days Time (French)','BD Blends (French)',
-    'Hydrogen Is Retail','Federal Agency Code','LNG On-Site Renewable Source','E85 Other Ethanol Blends','EV Pricing (French)','Hydrogen Pressures','Hydrogen Standards','Federal Agency Name'
-    ]
-
-    # Elimino las columnas especificadas
-    
-    df = df.drop(columns=columnas_a_eliminar)
+    # Eliminar filas con valores nulos del DataFrame original
+    df.dropna(axis=1, inplace=True)
     # Reorganizo las columnas
     column_order = ['ID'] + [col for col in df.columns if col != 'ID']
+    df=df[column_order]
     
-    df = df[column_order]
+    # Crear un diccionario de mapeo de nombres de columnas
+    mapeo_nombres = {
+        'ID': 'ID',
+        'Fuel Type Code': 'Fuel_Type_Code',
+        'Station Name': 'Station_Name',
+        'City': 'City',
+        'State': 'State',
+        'Status Code': 'Status_Code',
+        'Groups With Access Code': 'Groups_With_Access_Code',
+        'Latitude': 'Latitude',
+        'Longitude': 'Longitude',
+        'Updated At': 'Updated_At',
+        'Country': 'Country',
+        'Groups With Access Code (French)': 'Groups_With_Access_Code_French',
+        'Access Code': 'Access_Code'
+    }
+
+    # Renombrar las columnas en el DataFrame
+    df.rename(columns=mapeo_nombres, inplace=True)
     
     return df
 
 # ETL Taxis zona
-def Clean_Taxi_Zone(df):
+def Clean_Taxi_Zones(df):
     #transformaciones
     columns_to_drop = ['Unnamed: 0', 'OBJECTID']
     df = df.drop(columns=columns_to_drop)
@@ -149,8 +170,24 @@ def Clean_Taxi_Zone(df):
 
 # ETL vehiculos de combustion
 def Clean_Veh_Com(df):
-    #dataset extraido se encuentra limpio, no se realiza ninguna transformacion.
-    pass
+    # Crear un diccionario de mapeo de nombres de columnas
+    mapeo_nombres = {
+        'Model(Year)': 'Model_Year',
+        'Make': 'Make',
+        'Model.1': 'Model_1',
+        'Vehicle Class': 'Vehicle_Class',
+        'Engine Size(L)': 'Engine_Size',
+        'Cylinders': 'Cylinders',
+        'Transmission': 'Transmission',
+        'Fuel(Type)': 'Fuel_Type',
+        'Fuel Consumption(City (L/100 km)': 'Fuel_Consumption_City',
+        'CO2 Emissions(g/km)': 'CO2_Emissions',
+        'CO2(Rating)': 'CO2_Rating',
+        'Smog(Rating)': 'Smog_Rating'
+    }
+
+    # Renombrar las columnas en el DataFrame
+    df.rename(columns=mapeo_nombres, inplace=True)
     return df
 
 def FolderImporterTaxis(path:str = path_taxi, spacer:str = ',', spacer_txt:str = '|'):
