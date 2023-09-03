@@ -58,8 +58,8 @@ with DAG(
         )
     
     PythonLoad5 = PythonOperator(
-        task_id="Load_Taxi_zone",
-        python_callable=Load_Taxi_zone,
+        task_id="Load_Taxi_zones",
+        python_callable=Load_Taxi_zones,
         )
         
     PythonLoad6 = PythonOperator(
@@ -87,26 +87,26 @@ with DAG(
     dag = dag
     )
 
-    SqlLoad = PythonOperator(
-    task_id="SQLUploadAll",
-    python_callable=UploadAll,
-    mysql_conn_id = 'mysql_docker'
-    )
+    #SqlLoad = PythonOperator(
+    #task_id="SQLUploadAll",
+    #python_callable=UploadAll,
+    #mysql_conn_id = 'mysql_docker'
+    #)
 
-    FinishSQLLoading = EmptyOperator(
-        task_id = 'FinishSQLLoading',
-        dag = dag
-        )
+    #FinishSQLLoading = EmptyOperator(
+    #    task_id = 'FinishSQLLoading',
+    #    dag = dag
+    #    )
 
     #CheckWithQuery = PythonOperator(
     #    task_id="CheckWithQuery",
         #python_callable=MakeQuery,
     #)
 
-    FinishPipeline = EmptyOperator(
-    task_id = 'FinishPipeline',
-    dag = dag
-    )
+    #FinishPipeline = EmptyOperator(
+    #task_id = 'FinishPipeline',
+    #dag = dag
+    #)
 
 
 #StartPipeline >> [PythonLoad1, PythonLoad2, PythonLoad3,PythonLoad4,PythonLoad5,PythonLoad6,PythonLoad7,PythonLoad8,PythonLoad9] >> FinishETL

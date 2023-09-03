@@ -1,4 +1,4 @@
-Fecha,Pasajeros por dia,Viajes por dia,Tarifario por dia,Total recaudado por dia,Pago con tarjeta,Pago con efectivo,Tipo de Taxi
+Fecha,Pasajeros_por_dia,Viajes_por_dia,Tarifario_por_dia,Total_recaudado_por_dia,Pago_con_tarjeta,Pago_con_efectivo,Tipo_de_Taxi
 2022-01-01,1320,1273,20361.61,25128.72,568,508,green
 2022-01-02,1739,1500,21448.61,26851.77,830,543,green
 2022-01-03,2716,2332,30798.87,38778.99,1216,917,green
