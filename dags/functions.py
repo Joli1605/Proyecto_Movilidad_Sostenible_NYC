@@ -9,7 +9,8 @@ from tempfile import NamedTemporaryFile
 import datetime as dt 
 
 spacer = '*'*10
-path_taxi = '/opt/airflow/dags/data/base/Taxis.parquet_2022_2023/'
+path_taxi_green = '/opt/airflow/dags/data/base/Taxis.parquet_2022_2023/taxi_green'
+path_taxi_yellow = '/opt/airflow/dags/data/base/Taxis.parquet_2022_2023/taxi_yellow'
 path_other = '/opt/airflow/dags/datasets/base/'
 
 #Import a single file, 
@@ -190,112 +191,222 @@ def Clean_Veh_Com(df):
     df.rename(columns=mapeo_nombres, inplace=True)
     return df
 
-def FolderImporterTaxis(path:str = path_taxi, spacer:str = ',', spacer_txt:str = '|'):
+def etl_taxi_green(file_path):
+    
+    # STEP 1: Abrimos el archivo .parquet
+    green_febrero = pd.read_parquet(file_path)
+
+    # STEP 2: Extraemos la fecha de recolección y resumir los pasajeros por día
+    green_febrero['pickup_date'] = green_febrero['lpep_pickup_datetime'].dt.date
+    df_resumen = green_febrero.groupby('pickup_date').agg({'passenger_count': 'sum'}).reset_index()
+
+    # STEP 3: Calcular la cantidad de viajes por día
+    cantidad_viajes_por_dia = green_febrero['pickup_date'].value_counts().reset_index()
+    cantidad_viajes_por_dia.columns = ['pickup_date', 'cantidad_viajes']
+    df_resumen = df_resumen.merge(cantidad_viajes_por_dia, on='pickup_date', how='left')
+
+    # STEP 4: Calcular el monto total de tarifas por día
+    df_resumen_dias = green_febrero.groupby('pickup_date')['fare_amount'].sum().reset_index()
+    df_resumen = df_resumen.merge(df_resumen_dias, on='pickup_date', how='left')
+
+    # STEP 5: Calcular el monto total por día
+    df_monto_total = green_febrero.groupby('pickup_date')['total_amount'].sum().reset_index()
+    df_resumen = df_resumen.merge(df_monto_total, on='pickup_date', how='left')
+
+    # STEP 6: Transformar la columna 'payment_type' en columnas separadas para cada tipo de pago (one-hot encoding)
+    green_febrero['payment_type'] = green_febrero['payment_type'].fillna(6.0)
+    green_febrero['payment_type'] = green_febrero['payment_type'].astype('int')
+    df_payment_types = pd.get_dummies(green_febrero['payment_type'], prefix='payment_type')
+
+    # Agregar la columna 'pickup_date' al nuevo DataFrame
+    df_payment_types['pickup_date'] = green_febrero['pickup_date']
+
+    # Combinar las filas con la misma fecha usando groupby y sumar los valores
+    df_payment_types = df_payment_types.groupby('pickup_date').sum()
+    df_resumen = df_resumen.merge(df_payment_types, on='pickup_date', how='left')
+
+    return df_resumen
+
+def merge_taxi_green(file_paths):
+    dfs = []
+    
+    for file_path in file_paths:
+        # usamos la funcion etl_process
+        df_resumen_mes = etl_taxi_green(file_path)
+        
+        # agregamos los dataframes resumidos
+        dfs.append(df_resumen_mes)
+    
+    # concatenamos todos los dataFrames en uno solo
+    df_final = pd.concat(dfs, ignore_index=True)
+    
+    # Ordanamos todos los datos en funcion a la columna 'pickup_date'
+    df_final = df_final.sort_values(by='pickup_date')
+    
+    # R
+    df_final = df_final.reset_index(drop=True)
+    return df_final
+
+def FolderImporterTaxis_green(path:str = path_taxi_green, spacer:str = ',', spacer_txt:str = '|'):
 
     #Get all files in the folder
     try:
-        all_csv = glob.glob(path + "/*.csv")
-        all_xls = glob.glob(path + "/*.xls") +  glob.glob(path + "/*.xlsx")
-        all_json = glob.glob(path + "/*.json")
-        all_txt = glob.glob(path + "/*.txt")
+
         all_parquet = glob.glob(path + "/*.parquet")
+        
 
-        all_files = all_csv + all_xls + all_json + all_txt + all_parquet
-
-        if len(all_files) == 0:
+        if len(all_parquet) == 0:
             raise FileNotFoundError('No files found in the folder')
 
     except:
         print('Error with path or files GLOB ERROR')
 
-    #Make lists for each type of file
-    li_csv = []
-    li_xls = []
-    li_json = []
-    li_txt = []
-    li_parquet = []
-    precio_final = []
-
-
-    #Get all CSV in the folder
-    if len(all_csv) > 0:
-        for filename in all_csv:
-            try:
-                df = pd.read_csv(filename, sep=spacer, encoding='utf-8', low_memory=False)
-                li_csv.append(Clean_Taxis(df))
-            except:
-                df = pd.read_csv(filename, sep=spacer, encoding='utf-16', low_memory=False)
-                li_csv.append(Clean_Taxis(df))
-                print('File imported with utf-16 encoding')
-            finally:
-                print('Importing successfully done for ', filename)
-        
-        print('All CSV files imported and cleaned successfully')
-    else:
-        print('No CSV files found')
-
-    
-    #Get all XLS/XLSX in the folder
-    if len(all_xls) > 0:
-        try:
-            for filename in all_xls:
-                df = pd.read_excel(filename, parse_dates=False, sheet_name=None, dtype={'precio': float, 'sucursal_id': object, 'producto_id': object})
-                if type(df) == dict:
-                    for key in df:
-                        li_xls.append(Clean_Taxis(df[key]))
-                else:
-                    li_xls.append(Clean_Taxis(df))
-        except:
-            print('Error importing XLS/XLSX files')
-        finally:
-            print('Importing successfully done for ', filename)
-        
-        print('All XLS/XLSX files imported and cleaned successfully')
-    else:
-        print('No XLS/XLSX files found')
-
-
-    #Get all JSON in the folder
-    if len(all_json) > 0:
-        for filename in all_json:
-            df = pd.read_json(filename)
-            li_json.append(Clean_Taxis(df))
-        
-        print('All JSON files imported and cleaned successfully')
-    else:
-        print('No JSON files found')
-
-
-    #Get all TXT in the folder
-    if len(all_txt) > 0:
-        for filename in all_txt:
-            try:
-                df = pd.read_csv(filename, sep=spacer_txt, encoding='utf-8')
-                li_txt.append(Clean_Taxis(df))
-            except:
-                print('Error with encoding, not UTF-8 probably', filename)
-                df = pd.read_csv(filename, sep=spacer_txt, encoding='utf-16')
-                li_txt.append(Clean_Taxis(df))
-            finally:
-                print('Importing successfully done for ', filename)
-        
-        print('All TXT files imported and cleaned successfully')
-    else:
-        print('No TXT files found')
-
     #Get all PARQUET in the folder
     if len(all_parquet) > 0:
-        for filename in all_parquet:
-            df = pd.read_parquet(filename)
-            li_parquet.append(Clean_Taxis(df))
+       # Llamar a la función para obtener el DataFrame final
+        taxiG = merge_taxi_green(all_parquet)
         
         print('All PARQUET files imported and cleaned successfully')
     else:
         print('No PARQUET files found')
 
-    #Concatenate all files
-    precio_final = pd.concat(li_csv + li_xls + li_json + li_txt + li_parquet, axis=0, ignore_index=True)
-    return precio_final
+    # Borraremos los datos atipicos.
+    taxiG = taxiG[10:]
+    # Seleccionamos las columnas que usaremos en este proyecto.
+    taxiG = taxiG[['pickup_date','passenger_count','cantidad_viajes','fare_amount','total_amount','payment_type_1','payment_type_2']]
+    # Ahora renombraremos las columnas.
+    columnas = {'pickup_date':'Fecha','passenger_count':'Pasajeros por dia','cantidad_viajes':'Viajes por dia','fare_amount':'Tarifario por dia','total_amount':'Total recaudado por dia','payment_type_1':'Pago con tarjeta','payment_type_2':'Pago con efectivo'}
+    taxiG.rename(columns=columnas, inplace=True)
+    taxiG['Tipo de Taxi'] = 'green'
+    taxiG['Pasajeros por dia']= taxiG['Pasajeros por dia'].astype('int')
+    taxiG['Pago con efectivo']=taxiG['Pago con efectivo'].astype('int')
+    taxiG['Pago con tarjeta'] = taxiG['Pago con tarjeta'].astype('int')
+    # Crear un diccionario de mapeo de nombres de columnas
+    mapeo_nombres = {
+        'Fecha': 'Fecha',
+        'Pasajeros por dia': 'Pasajeros_por_dia',
+        'Viajes por dia': 'Viajes_por_dia',
+        'Tarifario por dia': 'Tarifario_por_dia',
+        'Total recaudado por dia': 'Total_recaudado_por_dia',
+        'Pago con tarjeta': 'Pago_con_tarjeta',
+        'Pago con efectivo': 'Pago_con_efectivo',
+        'Tipo de Taxi': 'Tipo_de_Taxi'
+    }
+
+    # Renombrar las columnas en el DataFrame
+    taxiG.rename(columns=mapeo_nombres, inplace=True)
+    
+
+    return taxiG
+
+def etl_taxi_yellow(file_path):
+    # STEP 1: Abrimos el archivo .parquet
+    green_febrero = pd.read_parquet(file_path)
+
+    # STEP 2: Extraemos la fecha de recolección y resumir los pasajeros por día
+    green_febrero['pickup_date'] = green_febrero['tpep_pickup_datetime'].dt.date
+    df_resumen = green_febrero.groupby('pickup_date').agg({'passenger_count': 'sum'}).reset_index()
+
+    # STEP 3: Calcular la cantidad de viajes por día
+    cantidad_viajes_por_dia = green_febrero['pickup_date'].value_counts().reset_index()
+    cantidad_viajes_por_dia.columns = ['pickup_date', 'cantidad_viajes']
+    df_resumen = df_resumen.merge(cantidad_viajes_por_dia, on='pickup_date', how='left')
+
+    # STEP 4: Calcular el monto total de tarifas por día
+    df_resumen_dias = green_febrero.groupby('pickup_date')['fare_amount'].sum().reset_index()
+    df_resumen = df_resumen.merge(df_resumen_dias, on='pickup_date', how='left')
+
+    # STEP 5: Calcular el monto total por día
+    df_monto_total = green_febrero.groupby('pickup_date')['total_amount'].sum().reset_index()
+    df_resumen = df_resumen.merge(df_monto_total, on='pickup_date', how='left')
+
+    # STEP 6: Transformar la columna 'payment_type' en columnas separadas para cada tipo de pago (one-hot encoding)
+    green_febrero['payment_type'] = green_febrero['payment_type'].fillna(6.0)
+    green_febrero['payment_type'] = green_febrero['payment_type'].astype('int')
+    df_payment_types = pd.get_dummies(green_febrero['payment_type'], prefix='payment_type')
+
+    # Agregar la columna 'pickup_date' al nuevo DataFrame
+    df_payment_types['pickup_date'] = green_febrero['pickup_date']
+
+    # Combinar las filas con la misma fecha usando groupby y sumar los valores
+    df_payment_types = df_payment_types.groupby('pickup_date').sum()
+    df_resumen = df_resumen.merge(df_payment_types, on='pickup_date', how='left')
+
+    return df_resumen
+
+def merge_taxi_yellow(file_paths):
+    dfs = []
+    
+    for file_path in file_paths:
+        # usamos la funcion etl_process2
+        df_resumen_mes = etl_taxi_yellow(file_path)
+        
+        # agregamos los dataframes resumidos
+        dfs.append(df_resumen_mes)
+    
+    # concatenamos todos los dataFrames en uno solo
+    df_final = pd.concat(dfs, ignore_index=True)
+    
+    # Ordanamos todos los datos en funcion a la columna 'pickup_date'
+    df_final = df_final.sort_values(by='pickup_date')
+    
+    # R
+    df_final = df_final.reset_index(drop=True)
+    return df_final
+
+def FolderImporterTaxis_yellow(path:str = path_taxi_yellow, spacer:str = ',', spacer_txt:str = '|'):
+
+    #Get all files in the folder
+    try:
+
+        all_parquet = glob.glob(path + "/*.parquet")
+        
+
+        if len(all_parquet) == 0:
+            raise FileNotFoundError('No files found in the folder')
+
+    except:
+        print('Error with path or files GLOB ERROR')
+
+    #Get all PARQUET in the folder
+    if len(all_parquet) > 0:
+       # Llamar a la función para obtener el DataFrame final
+        taxiY = merge_taxi_yellow(all_parquet)
+        
+        print('All PARQUET files imported and cleaned successfully')
+    else:
+        print('No PARQUET files found')
+        
+    # Borramos valores atipicos.
+    taxiY = taxiY[53:]
+    # Seleccionamos las columnas que usaremos en este proyecto.
+    taxiY = taxiY[['pickup_date','passenger_count','cantidad_viajes','fare_amount','total_amount','payment_type_0','payment_type_1']]
+    # Ahora renombraremos las columnas.
+    columnas = {'pickup_date':'Fecha','passenger_count':'Pasajeros por dia','cantidad_viajes':'Viajes por dia','fare_amount':'Tarifario por dia','total_amount':'Total recaudado por dia','payment_type_0':'Pago con tarjeta','payment_type_1':'Pago con efectivo'}
+    taxiY=taxiY.rename(columns=columnas)
+    # Agregamos la columna de tipo de taxi
+    taxiY['Tipo de Taxi'] = 'yellow'
+    # Convertimos las columnas a un formato mas trabajable.
+    taxiY['Pasajeros por dia'] = taxiY['Pasajeros por dia'].astype('int')
+    taxiY['Pago con efectivo'] = taxiY['Pago con efectivo'].astype('int')
+    taxiY['Pago con tarjeta'] = taxiY['Pago con tarjeta'].astype('int')
+    # Crear un diccionario de mapeo de nombres de columnas
+    mapeo_nombres = {
+        'Fecha': 'Fecha',
+        'Pasajeros por dia': 'Pasajeros_por_dia',
+        'Viajes por dia': 'Viajes_por_dia',
+        'Tarifario por dia': 'Tarifario_por_dia',
+        'Total recaudado por dia': 'Total_recaudado_por_dia',
+        'Pago con tarjeta': 'Pago_con_tarjeta',
+        'Pago con efectivo': 'Pago_con_efectivo',
+        'Tipo de Taxi': 'Tipo_de_Taxi'
+    }
+
+    # Renombrar las columnas en el DataFrame
+    taxiY.rename(columns=mapeo_nombres, inplace=True)
+
+    return taxiY
+
 
 # Export files to SQL
 # Create sqlalchemy engine
@@ -311,22 +422,3 @@ def ConnectSQL():
     except:
         print('Error connecting to SQL')
 
-# Get a list of files in the folder to compare
-def GetFiles():
-    #Get all files in the folder
-    try:
-        all_csv = glob.glob(path_taxi + "/*.csv")
-        all_xls = glob.glob(path_taxi + "/*.xls") +  glob.glob(path_taxi + "/*.xlsx")
-        all_json = glob.glob(path_taxi + "/*.json")
-        all_txt = glob.glob(path_taxi + "/*.txt")
-        all_parquet = glob.glob(path_taxi + "/*.parquet")
-
-        all_files = all_csv + all_xls + all_json + all_txt + all_parquet
-        
-        if len(all_files) == 0:
-            raise FileNotFoundError('No files found in the folder')
-
-    except:
-        print('Error with path or files GLOB ERROR')
-
-    return all_files

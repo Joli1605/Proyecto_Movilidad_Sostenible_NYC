@@ -68,13 +68,14 @@ with DAG(
         )   
     
     PythonLoad7 = PythonOperator(
-        task_id="Load_Taxi_Tarifa",
-        python_callable=Load_Taxi_Tarifa,
+        task_id="Load_Taxi_Y",
+        python_callable=Load_TaxiY,
+        execution_timeout=timedelta(hours=0.5),
         )
     
     PythonLoad8 = PythonOperator(
-        task_id="Load_Taxi_Y",
-        python_callable=Load_TaxiY,
+        task_id="Load_Taxi_Tarifa",
+        python_callable=Load_Taxi_Tarifa,
         )
 
     PythonLoad9 = PythonOperator(
@@ -109,7 +110,7 @@ with DAG(
     #)
 
 
-#StartPipeline >> [PythonLoad1, PythonLoad2, PythonLoad3,PythonLoad4,PythonLoad5,PythonLoad6,PythonLoad7,PythonLoad8,PythonLoad9] >> FinishETL
+StartPipeline >> [PythonLoad1, PythonLoad2, PythonLoad3,PythonLoad4,PythonLoad5,PythonLoad6,PythonLoad7,PythonLoad8,PythonLoad9] >> FinishETL
 
 #FinishETL >> SqlLoad >> FinishSQLLoading
 

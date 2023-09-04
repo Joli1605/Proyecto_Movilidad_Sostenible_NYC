@@ -4,7 +4,8 @@ import glob
 spacer = '*'*10
 path_base = '/opt/airflow/dags/data/base/'
 path_cleaned = '/opt/airflow/dags/data/cleaned/'
-path_taxi = '/opt/airflow/dags/data/base/Taxis.parquet_2022_2023/'
+path_taxi_green = '/opt/airflow/dags/data/base/Taxis.parquet_2022_2023/taxi_green'
+path_taxi_yellow = '/opt/airflow/dags/data/base/Taxis.parquet_2022_2023/taxi_yellow'
 
 from functions import *
 
@@ -51,27 +52,30 @@ def Load_Taxi_zones():
 
 def Load_TaxiG():
     try:
-        df = FolderImporterTaxis(path_taxi)
+        df = FolderImporterTaxis_green(path_taxi_green)
         df.to_csv(f'{path_cleaned}taxiG.csv', index=False)
         print('taxiG Cleaned and Saved')
     except:
         print('Error cleaning taxiG')
 
-def Load_Taxi_Tarifa():
-    try:
-        df = FolderImporterTaxis(path_taxi)
-        df.to_csv(f'{path_cleaned}taxis_tarifa.csv', index=False)
-        print('taxis_tarifa Cleaned and Saved')
-    except:
-        print('Error cleaning taxis_tarifa')
-
 def Load_TaxiY():
     try:
-        df = FolderImporterTaxis(path_taxi)
+        df = FolderImporterTaxis_yellow(path_taxi_yellow)
         df.to_csv(f'{path_cleaned}taxiY.csv', index=False)
         print('taxiY Cleaned and Saved')
     except:
         print('Error cleaning taxiY')
+
+
+def Load_Taxi_Tarifa():
+    try:
+        taxiG = pd.read_csv(f'{path_cleaned}taxiG.csv')
+        taxiY = pd.read_csv(f'{path_cleaned}taxiY.csv')
+        df = pd.concat([taxiG, taxiY], ignore_index=True)
+        df.to_csv(f'{path_cleaned}taxis_tarifa.csv', index=False)
+        print('taxis_tarifa Cleaned and Saved')
+    except:
+        print('Error cleaning taxis_tarifa')
 
 def Load_Veh_Com():
     try:
