@@ -84,20 +84,20 @@ with DAG(
         )
   
     FinishETL= EmptyOperator(
-    task_id = 'FinishETL',
-    dag = dag
-    )
+        task_id = 'FinishETL',
+        dag = dag
+        )
 
-    #SqlLoad = PythonOperator(
-    #task_id="SQLUploadAll",
-    #python_callable=UploadAll,
-    #mysql_conn_id = 'mysql_docker'
-    #)
+    SqlLoad = PythonOperator(
+        task_id="SQLUploadAll",
+        python_callable=UploadAll,
+        #mysql_conn_id = 'mysql_docker'
+        )
 
-    #FinishSQLLoading = EmptyOperator(
-    #    task_id = 'FinishSQLLoading',
-    #    dag = dag
-    #    )
+    FinishSQLLoading = EmptyOperator(
+        task_id = 'FinishSQLLoading',
+        dag = dag
+        )
 
     #CheckWithQuery = PythonOperator(
     #    task_id="CheckWithQuery",

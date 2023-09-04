@@ -2,11 +2,13 @@ import pandas as pd
 import numpy as np
 import glob
 from sqlalchemy import create_engine
+import pymysql
 import os
 from airflow.models.taskinstance import TaskInstance as ti
 #from airflow.providers.amazon.aws.hooks.s3 import S3Hook
 from tempfile import NamedTemporaryFile
 import datetime as dt 
+
 
 spacer = '*'*10
 path_taxi_green = '/opt/airflow/dags/data/base/Taxis.parquet_2022_2023/taxi_green'
@@ -411,6 +413,7 @@ def FolderImporterTaxis_yellow(path:str = path_taxi_yellow, spacer:str = ',', sp
 # Export files to SQL
 # Create sqlalchemy engine
 # BEWARE OF IP ADDRESS IT CAN CHANGE WITH WIFI ROUTER RESTART
+""""
 def ConnectSQL():
     try:
         engine = create_engine("mysql+pymysql://{user}:{pw}@{address}/{db}"
@@ -419,6 +422,40 @@ def ConnectSQL():
                             pw="8195",
                             db="proyecto_ny"))
         return engine
-    except:
-        print('Error connecting to SQL')
+    except Exception as e:
+        print('Error connecting to SQL:', str(e))
+"""
 
+
+def ConnectSQL():
+    try:
+        # Configuración de la conexión
+        user = "root"
+        host = "127.0.0.1"
+        port = 3306
+        password = "8195"
+        db = "proyecto_ny"
+
+        # Intentar conectar
+        connection = pymysql.connect(
+            host=host,
+            user=user,
+            password=password,
+            db=db,
+            port=port
+        )
+
+        # La conexión se realizó con éxito
+        print("Conexión a MySQL exitosa")
+
+        # Cierra la conexión
+        connection.close()
+
+        # Crear el motor de SQLAlchemy
+        engine = create_engine(f"mysql+pymysql://{user}:{password}@{host}:{port}/{db}")
+
+        return engine
+
+    except Exception as e:
+        print('Error connecting to MySQL:', str(e))
+        return None

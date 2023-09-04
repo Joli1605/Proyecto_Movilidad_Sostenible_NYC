@@ -1,5 +1,7 @@
 import pandas as pd
 import glob
+import pymysql
+from sqlalchemy import create_engine
 
 spacer = '*'*10
 path_base = '/opt/airflow/dags/data/base/'
@@ -85,18 +87,27 @@ def Load_Veh_Com():
     except:
         print('Error cleaning vehiculos_combustion')
 
+
 def UploadAll():
     try:
         engine = ConnectSQL()
-    except:
-        print('Error connecting to SQL')
+        #print("conexion exitosa")
+    except Exception as e:
+        print('Error connecting to SQL:', str(e))
 
+    """""
     all_files_cleaned = glob.glob(f'{path_cleaned}*.csv')
-    
+
     for filename in all_files_cleaned:
         try:
             df = pd.read_csv(filename)
-            df.to_sql(filename.split('/')[-1].split('.')[0].split('_')[0], con=engine, if_exists='replace', index=False)
-            print('Successfully uploaded ', filename)
-        except:
-            print('Error uploading ', filename)
+            table_name = filename.split('/')[-1].split('.')[0].split('_')[0]
+            df.to_sql(table_name, con=engine, if_exists='replace', index=False)
+            print('Successfully uploaded', filename)
+        except pd.errors.EmptyDataError as e:
+            print('Empty data error for', filename, ':', str(e))
+        except pd.errors.ParserError as e:
+            print('Parser error for', filename, ':', str(e))
+        except Exception as e:
+            print('Error uploading', filename, ':', str(e))
+"""
