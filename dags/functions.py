@@ -122,6 +122,7 @@ def Clean_Clima(df):
     # Eliminar las columnas no deseadas
     columns_to_drop = ["precipitation (mm)", "rain (mm)", "is_day ()"]
     df = df.drop(columns=columns_to_drop)
+    df.dropna(inplace = True)
     
     return df
 
@@ -132,6 +133,7 @@ def Clean_Station(df):
     df = df[df['State'] == 'NY']
     # Eliminar filas con valores nulos del DataFrame original
     df.dropna(axis=1, inplace=True)
+    df = df.drop('Updated At', axis=1)
     # Reorganizo las columnas
     column_order = ['ID'] + [col for col in df.columns if col != 'ID']
     df=df[column_order]
@@ -141,10 +143,13 @@ def Clean_Station(df):
         'ID': 'ID',
         'Fuel Type Code': 'Fuel_Type_Code',
         'Station Name': 'Station_Name',
+        'Street Address': 'Street_Address',
         'City': 'City',
         'State': 'State',
+        'ZIP': 'ZIP',
         'Status Code': 'Status_Code',
         'Groups With Access Code': 'Groups_With_Access_Code',
+        'Geocode Status' : 'Geocode_Status',
         'Latitude': 'Latitude',
         'Longitude': 'Longitude',
         'Updated At': 'Updated_At',
