@@ -98,7 +98,7 @@ Objetivo: Evaluar si hubo un aumento de al menos el 5% en las tarifas entre los 
 Objetivo: Limitar el incremento anual de los niveles de contaminación sonora en los barrios identificados con mayor contaminación a un máximo del 5% durante los próximos dos años.
 
 ### **KPI: Crecimiento Anual de la Cantidad de Viajes Realizados**
-Objetivo: Aumentar la cantidad de viajes realizados en un 10% anual durante los próximos cinco años.
+Objetivo: Aumentar la cantidad de viajes realizados en un 10% anual durante el último año.
 
 ### **KPI: Días de la Semana con Mayor Demanda en Épocas de Bajas Temperaturas**
 Objetivo: Identificar los días de la semana con la mayor cantidad de viajes realizados durante los períodos de bajas temperaturas, buscando incrementar la cantidad de viajes en esos días en al menos un 10% en el próximo año.
