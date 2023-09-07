@@ -20,8 +20,14 @@ def establecer_conexion_mysql():
 
 conexion_mysql = establecer_conexion_mysql()  # Establece la conexión a la base de datos
 
-model_filename = r'E:\000-USUARIOS\Pablo\Documentos\Documentos\Marce\Data y Machine Learning\HENRY\Proy. Final\Modelo\modelo_random_forest.joblib'# Cargo el modelo entrenado
-loaded_model = joblib.load(model_filename)
+model_url = 'https://github.com/marcebalzarelli/Modelo_Prediccion_cantidad_de_taxis/blob/main/modelo_random_forest.joblib?raw=true'
+
+# Descargar el modelo desde GitHub
+response = requests.get(model_url)
+model_data = io.BytesIO(response.content)
+
+# Cargar el modelo
+loaded_model = joblib.load(model_data)
 
 promedio_pasajeros = 147049.8586065574 # Promedio de pasajeros
 
