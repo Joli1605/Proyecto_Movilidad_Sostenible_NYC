@@ -87,14 +87,17 @@ if st.button('Realizar Predicción'):# Realizo predicción
 # Información adicional
 st.write('Este modelo utiliza Random Forest para hacer predicciones. Los datos de entrada incluyen la temperatura promedio, el día de la semana y el tipo de taxi. Los datos ingresados serán guardados en nuestra base de datos para continuar entrenando el modelo.')
 
-# Cargo el archivo
-archivo_csv = r'E:\000-USUARIOS\Pablo\Documentos\Documentos\Marce\Data y Machine Learning\HENRY\Proy. Final\Datasets_limpios\tabla_combinada.csv'  # Reemplaza 'tu_archivo.csv' con la ruta de tu archivo CSV
-df = pd.read_csv(archivo_csv)
+#Cargo CSV
+url_csv = 'https://drive.google.com/uc?id=12OIQyeSJeBjJhEiWR0VcChuIds3bGzhe'
+
+try:
+    df = pd.read_csv(url_csv)
+except urllib.error.HTTPError as e:
+    print(f"Error al cargar los datos: {e}")
 
 viajes_por_dia_semana = df.groupby('DiaSemana')['Viajes_por_dia'].sum().reset_index()# Agrupo los datos por día de la semana y sumo los viajes
 
 col1, col2 = st.columns(2)# Creo dos columnas en Streamlit
-
 
 # Gráfico de barras para la cantidad de viajes por día de la semana
 with col1: 
