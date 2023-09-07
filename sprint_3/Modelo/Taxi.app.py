@@ -129,6 +129,93 @@ fig_stacked_bar = px.bar(df, x='DiaSemana', y='Viajes_por_dia', color='Tipo_de_T
                          barmode='group')
 st.plotly_chart(fig_stacked_bar, use_container_width=True)
 
+def calidad_aire_2020(ubicacion):
+    if conexion_mysql is None:
+        return {'error': 'Error al conectar a la base de datos'}
+
+    try:
+        # Creamos un cursor para ejecutar consultas SQL
+        cursor = conexion_mysql.cursor(dictionary=True)
+        
+        # Consultamos SQL para obtener los datos de calidad del aire
+        sql_query = """
+        SELECT Name, Measure, Data_Value
+        FROM calidad_del_aire
+        WHERE Geo_Place_Name = %s AND Start_Date LIKE %s
+        """
+        
+        # Convertimos la ubicación proporcionada a minúsculas
+        ubicacion = ubicacion.lower()
+        
+        # Ejecutamos la consulta SQL
+        cursor.execute(sql_query, (ubicacion, '2020%'))
+        
+        # Obtenemos los resultados
+        calidad_aire_data = cursor.fetchall()
+        
+        # Verificamos si se encontraron datos
+        if not calidad_aire_data:
+            return {'error': 'No se encontraron datos para la ubicación'}
+        
+        # Creamos un diccionario de contaminantes y valores correspondientes
+        contaminantes = ['Particulate Matter (PM2.5)', 'Particulate Matter (PM10)', 'Ozone (O3)', 'Nitrogen Dioxide (NO2)', 'Sulfur Dioxide (SO2)']
+        calidad_aire_dict = {}
+        
+        for contaminante in contaminantes:
+            calidad_aire_dict[contaminante] = [row for row in calidad_aire_data if row['Name'] == contaminante]
+
+        return {'ubicacion': ubicacion, 'anio': '2020', 'datos_calidad_aire': calidad_aire_dict}
+    
+    except Exception as e:
+        return {'error': f'Error al obtener datos de calidad del aire'}
+    
+def contaminacion_sonora(borough):
+    if conexion_mysql is None:
+        return {'error': 'Error al conectar a la base de datos'}
+
+    try:
+        # Creamos un cursor para ejecutar consultas SQL
+        cursor = conexion_mysql.cursor(dictionary=True)
+        
+        # Consultamos SQL para obtener los datos de contaminación sonora
+        sql_query = """
+        SELECT YEAR(fecha) AS anio, SUM(engine_sounds) AS total_engine_sounds,
+               SUM(alert_signal_sounds) AS total_alert_signal_sounds,
+               SUM(total_sounds) AS total_sounds, MAX(borough_name) AS borough_name
+        FROM conta_sonora
+        WHERE LOWER(borough_name) LIKE %s AND YEAR(fecha) IN (2017, 2018, 2019)
+        GROUP BY YEAR(fecha)
+        """
+    
+        parametro_borough = f"%{borough.lower()}%"
+        
+        # Ejecutamos la consulta SQL
+        cursor.execute(sql_query, (parametro_borough,))
+        
+        # Obtenemos los resultados
+        contaminacion_sonora_data = cursor.fetchall()
+
+        newBorough = contaminacion_sonora_data[0]["borough_name"].strip()
+        
+        # Verificamos si se encontraron datos
+        if not contaminacion_sonora_data:
+            return {'error': f'No se encontraron datos para el municipio: {borough}'}
+        
+        # Creamos un diccionario de estadísticas de contaminación sonora por año
+        estadisticas_contaminacion = {}
+        for fila in contaminacion_sonora_data:
+            anio = fila['anio']
+            estadisticas_contaminacion[anio] = {
+                'total_engine_sounds': int(fila['total_engine_sounds']),
+                'total_alert_signal_sounds': int(fila['total_alert_signal_sounds']),
+                'total_sounds': int(fila['total_sounds'])
+            }
+
+        return {'ubicacion': newBorough, 'estadisticas_contaminacion': estadisticas_contaminacion}
+    
+    except Exception as e:
+        return {'error': f'Error al obtener datos de contaminación sonora'}
+
 st.write('Hecho por [Marcela Balzarelli, Pablo Barchiesi, Jorgelina Ramos, Michael Martinez]')# Texto de pie
 
 ##if conexion_mysql is not None:
