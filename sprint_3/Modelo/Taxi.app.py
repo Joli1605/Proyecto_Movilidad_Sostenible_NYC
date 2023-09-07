@@ -122,13 +122,6 @@ with col2:
                              labels={'avg_temperature': 'Temperatura Promedio', 'Viajes_por_dia': 'Cantidad de Viajes'})
     st.plotly_chart(fig_scatter, use_container_width=True)
 
-# Gráfico de barras apiladas para tipos de taxi "green" y "yellow"
-st.title('Cantidad de Viajes por Tipo de Taxi')
-fig_stacked_bar = px.bar(df, x='DiaSemana', y='Viajes_por_dia', color='Tipo_de_Taxi',
-                         labels={'DiaSemana': 'Día de la Semana', 'Viajes_por_dia': 'Cantidad de Viajes'},
-                         barmode='group')
-st.plotly_chart(fig_stacked_bar, use_container_width=True)
-
 def calidad_aire_2020(ubicacion):
     if conexion_mysql is None:
         return {'error': 'Error al conectar a la base de datos'}
