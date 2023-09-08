@@ -107,7 +107,7 @@ Objetivo: Identificar los días de la semana con la mayor cantidad de viajes rea
 
 <br>
 <div style="text-align: center;">
-  <img src='./Images/Diagrama Entidad Relación.jpeg' alt="Diagrama Entidad Relación">
+  <img src='./Images/ER.jpeg' alt="ER">
 </div>
 <br>
 
