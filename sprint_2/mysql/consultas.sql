@@ -6,7 +6,7 @@ use proyecto_ny;
 SELECT @@global.secure_file_priv;
 SHOW VARIABLES LIKE "secure_file_priv";
 
-CREATE TABLE Calidad_del_aire (
+CREATE TABLE IF NOT EXISTS Calidad_del_aire (
     Name VARCHAR(255),
     Measure VARCHAR(255),
     Measure_Info VARCHAR(255),
@@ -27,7 +27,7 @@ LINES	TERMINATED BY '\n' IGNORE 1 LINES
 
 select * from calidad_del_aire;
 
-CREATE TABLE conta_sonora (
+CREATE TABLE IF NOT EXISTS conta_sonora (
     fecha DATE,
     id_borough INT,
     engine_sounds INT,
@@ -45,7 +45,7 @@ LINES	TERMINATED BY '\n' IGNORE 1 LINES
 
 SELECT * from conta_sonora LIMIT 4;
 
-CREATE TABLE NYCCLIMA (
+CREATE TABLE IF NOT EXISTS NYCCLIMA (
     time DATE,
     hours TIME,
     temperature FLOAT
@@ -59,8 +59,8 @@ LINES	TERMINATED BY '\n' IGNORE 1 LINES
 (time,hours,temperature);
 
 select * from NYCCLIMA LIMIT 5;
-drop table IF EXISTS Station_NY;
-CREATE TABLE Station_NY (
+
+CREATE TABLE IF NOT EXISTS Station_NY (
     ID INT,
     Fuel_Type_Code VARCHAR(255),
     Station_Name VARCHAR(255),
@@ -87,7 +87,7 @@ LINES	TERMINATED BY '\n' IGNORE 1 LINES
 
 SELECT * from Station_NY LIMIT 4;
 
-CREATE TABLE Taxi_zones (
+CREATE TABLE IF NOT EXISTS Taxi_zones (
     LocationID INT,
     Shape_Leng FLOAT,
     Shape_Area FLOAT,
@@ -106,7 +106,7 @@ LINES	TERMINATED BY '\n' IGNORE 1 LINES
 
 SELECT * from Taxi_zones limit 5;
 
-CREATE TABLE taxiG (
+CREATE TABLE IF NOT EXISTS taxiG (
     Fecha Date,
     Pasajeros_por_dia INT,
     Viajes_por_dia INT,
@@ -126,7 +126,7 @@ LINES	TERMINATED BY '\n' IGNORE 1 LINES
 
 select * from taxiG limit 5;
 
-CREATE TABLE taxiY (
+CREATE TABLE IF NOT EXISTS taxiY (
     Fecha DATE,
     Pasajeros_por_dia INT,
     Viajes_por_dia INT,
@@ -146,7 +146,7 @@ LINES	TERMINATED BY '\n' IGNORE 1 LINES
 
 select * from taxiY limit 5;
 
-CREATE TABLE taxis_tarifa (
+CREATE TABLE IF NOT EXISTS taxis_tarifa (
     Fecha DATE,
     Pasajeros_por_dia INT,
     Viajes_por_dia INT,
@@ -166,7 +166,7 @@ LINES	TERMINATED BY '\n' IGNORE 1 LINES
 
 select * from taxis_tarifa;
 
-CREATE TABLE veh_com (
+CREATE TABLE IF NOT EXISTS veh_com (
     Model_Year INT,
     Make VARCHAR(255),
     Model_1 VARCHAR(255),

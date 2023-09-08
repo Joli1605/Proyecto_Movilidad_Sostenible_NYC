@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import glob
+import psycopg2
 from sqlalchemy import create_engine
 import pymysql
 import os
@@ -134,6 +135,8 @@ def Clean_Station(df):
     # Eliminar filas con valores nulos del DataFrame original
     df.dropna(axis=1, inplace=True)
     df = df.drop('Updated At', axis=1)
+    #df = df.drop('Station_Name', axis=1)
+    df = df.drop(['Groups With Access Code (French)','Station Name','Street Address'], axis=1)
     # Reorganizo las columnas
     column_order = ['ID'] + [col for col in df.columns if col != 'ID']
     df=df[column_order]
@@ -142,8 +145,6 @@ def Clean_Station(df):
     mapeo_nombres = {
         'ID': 'ID',
         'Fuel Type Code': 'Fuel_Type_Code',
-        'Station Name': 'Station_Name',
-        'Street Address': 'Street_Address',
         'City': 'City',
         'State': 'State',
         'ZIP': 'ZIP',
@@ -154,7 +155,6 @@ def Clean_Station(df):
         'Longitude': 'Longitude',
         'Updated At': 'Updated_At',
         'Country': 'Country',
-        'Groups With Access Code (French)': 'Groups_With_Access_Code_French',
         'Access Code': 'Access_Code'
     }
 
@@ -171,6 +171,7 @@ def Clean_Taxi_Zones(df):
 
     column_order = ['LocationID'] + [col for col in df.columns if col != 'LocationID']
     df=df[column_order]
+    df = df.drop('zone', axis=1)
 
     df = df.rename(columns={'y': 'longitude', 'x': 'latitude'})
     return df
@@ -415,52 +416,3 @@ def FolderImporterTaxis_yellow(path:str = path_taxi_yellow, spacer:str = ',', sp
     return taxiY
 
 
-# Export files to SQL
-# Create sqlalchemy engine
-# BEWARE OF IP ADDRESS IT CAN CHANGE WITH WIFI ROUTER RESTART
-""""
-def ConnectSQL():
-    try:
-        engine = create_engine("mysql+pymysql://{user}:{pw}@{address}/{db}"
-                    .format(user="root",
-                            address = '127.0.0.1:3306',
-                            pw="8195",
-                            db="proyecto_ny"))
-        return engine
-    except Exception as e:
-        print('Error connecting to SQL:', str(e))
-"""
-
-
-def ConnectSQL():
-    try:
-        # Configuración de la conexión
-        user = "root"
-        host = "127.0.0.1"
-        port = 3306
-        password = "8195"
-        db = "proyecto_ny"
-
-        # Intentar conectar
-        connection = pymysql.connect(
-            host=host,
-            user=user,
-            password=password,
-            db=db,
-            port=port
-        )
-
-        # La conexión se realizó con éxito
-        print("Conexión a MySQL exitosa")
-
-        # Cierra la conexión
-        connection.close()
-
-        # Crear el motor de SQLAlchemy
-        engine = create_engine(f"mysql+pymysql://{user}:{password}@{host}:{port}/{db}")
-
-        return engine
-
-    except Exception as e:
-        print('Error connecting to MySQL:', str(e))
-        return None
