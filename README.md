@@ -118,3 +118,16 @@ Objetivo: Identificar los días de la semana con la mayor cantidad de viajes rea
 </div>
 <br>
 
+## API
+Se ha desarrollado una API que permita a los usuarios obtener información sobre la contaminación sonora y la calidad del aire en función de la ubicación geográfica que ingresen y la función específica que elijan.
+
+La API se ha desarrollado utilizando un conjunto de datos de contaminación sonora y calidad del aire recopilados de diversas fuentes. Los datos se han procesado y almacenado en un formato que facilita su consulta a través de la API. Se ha desplegado en Streamlit junto con el modelo de Machine Learning, lo que facilita su uso por parte de los usuarios.
+
+### Link de la app de Streamlit: https://movilidadsostenible.streamlit.app/
+
+## Contacto
+Si tienes alguna pregunta o comentario, no dudes en escribirnos en LinkedIn como  [Pablo Barchiesi ](https://www.linkedin.com/in/barchiesipablo). 
+                                                                                  [Marcela Balzarelli ](https://www.linkedin.com/in/marcela-balzarelli).
+                                                                                  [Jorgelina Ramos ](https://www.linkedin.com/in/jorgelina-p-l-ramos-83564422b).
+                                                                                  [Michael Martinez](https://www.linkedin.com/in/michael-martínez).
+
