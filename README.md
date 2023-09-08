@@ -14,12 +14,19 @@ La empresa de servicios de transporte de pasajeros desea invertir en el sector c
 El proyecto implica recopilar, depurar y disponibilizar información relevante de diferentes fuentes para analizar la relación entre el transporte de pasajeros con automóviles en Nueva York, la calidad del aire, la contaminación sonora y correlaciones climáticas. A través de reportes, dashboards y el entrenamiento de un modelo de machine learning de clasificación, se resolverá un problema específico relacionado con los objetivos del proyecto.
 
 
-## Objetivos
+## Objetivos 
 
 - Recopilar y depurar datos de diferentes fuentes para crear una base de datos (DataWarehouse).
 - Realizar un análisis exploratorio de los datos para encontrar relaciones
 - Crear un dashboard interactivo y visualmente atractivo que integre los resultados del análisis exploratorio de datos
 - Entrenar y poner en producción un modelo de machine learning de clasificación para resolver el problema de inversión en el sector.
+  
+### Objetivos del proyecto
+
+- Investigar y analizar los conjuntos de datos de taxis y viajes compartidos en Nueva York para identificar patrones y tendencias de movimiento.
+- Entender la correlación entre los datos de viajes y las métricas ambientales con el fin de proporcionar una base sólida para las decisiones futuras relacionadas con la flota de vehículos.
+- Proveer información relevante y confiable a la empresa para respaldar su toma de decisiones sobre la implementación de vehículos eléctricos en su flota.
+- Contribuir a la visión de un futuro menos contaminado y ajustarse a las tendencias de mercado actuales.
 
 
 ## Roles y responsabilidades
@@ -36,15 +43,15 @@ El proyecto implica recopilar, depurar y disponibilizar información relevante d
 
 Para llevar a cabo nuestro proyecto hemos seleccionado las siguientes tecnologías:
 
-- Trabajo diario: python, google meet, github.
+- Trabajo diario: Python, Google meet, Github.
 
-- Ingeniería de datos: Python, mysql, Docker, Apache Airflow.
+- Ingeniería de datos: Python, PostgreSQL, Docker, Apache Airflow.
 
-- Análisis y visualización de datos: Power Bi, python.
+- Análisis y visualización de datos: Power Bi, Python.
 
-- Modelo de machine learning: Python.
+- Modelo de machine learning: Python, Streamlit.
 
-- Gestión de proyectos: Jira
+- Gestión de proyectos: Jira.
 
 
 ## Solución data pipeline
@@ -73,11 +80,11 @@ Utilizamos Apache Airflow para orquestar y programar el flujo de trabajo de inge
 
 ### Proceso ETL Automatizado: 
 
-El proceso de Extracción, Transformación y Carga (ETL) se realiza a través del lenguaje de programación Python, además, hemos implementado con airflow el mecanismo de carga incremental para actualizar los datos de manera eficiente.
+El proceso de Extracción, Transformación y Carga (ETL) se realiza a través del lenguaje de programación Python, además, hemos implementado con Airflow el mecanismo de carga incremental para actualizar los datos de manera eficiente.
 
-### Almacenamiento en MySQL: 
+### Almacenamiento en PostgreSQL: 
 
-Los datos procesados se almacenan en una base de datos MySQL.
+Los datos procesados se almacenan en una base de datos PostgreSQL.
 
 ### Análisis de Datos en Power BI: 
 
