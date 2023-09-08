@@ -80,7 +80,7 @@ Utilizamos Apache Airflow para orquestar y programar el flujo de trabajo de inge
 
 ### Proceso ETL Automatizado: 
 
-El proceso de Extracción, Transformación y Carga (ETL) se realiza a través del lenguaje de programación Python, además, hemos implementado con Airflow el mecanismo de carga incremental para actualizar los datos de manera eficiente.
+El proceso de Extracción, Transformación y Carga (ETL) se realiza a través del lenguaje de programación Python implementado con Airflow.
 
 ### Almacenamiento en PostgreSQL: 
 
